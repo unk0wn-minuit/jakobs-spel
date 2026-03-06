@@ -337,7 +337,9 @@ const q=document.querySelector("input").value.toLowerCase();
 renderGames(files.filter(f=>displayName(f).toLowerCase().includes(q)));
 }
 
-function goHome(){embedContainer.style.display="none";renderGames(files);}
+function goHome(){
+    location.reload();
+}
 function showFavorites(){renderGames(favoriteGames);}
 function showRecent(){renderGames(recentGames);}
 function openIframe(url){gameFrame.src=url;embedContainer.style.display="block";}
