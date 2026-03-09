@@ -883,10 +883,10 @@ const bannedWords = [
   "hitler",
   "alve",
   "bernflo", 
-  "epsteien",
+  "epstien",
   "fitta", 
   "neger", 
-  "hora",
+  "hor",
   "fuck",
   "horunge",
   "goon",
@@ -925,10 +925,24 @@ function sendChatMessage() {
   const text = sanitizeText(chatInputEl.value);
   if (!text || !chatRef) return;
 
-  if (containsBannedWord(text)) {
-    alert("Ditt meddelande innehåller ord som inte är tillåtna.");
+  const name = sanitizeName(chatNameEl.value);
+
+  if (containsBannedWord(name)) {
+    alert("Ditt användarnamn innehåller ord som inte är tillåtna, sluta.");
     return;
   }
+
+  if (containsBannedWord(text)) {
+    alert("Ditt meddelande innehåller ord som inte är tillåtna, sluta försöka");
+    return;
+  }
+
+  chatNameEl.value = name;
+  localStorage.setItem("chatName", name);
+
+  chatRef.push({ name, text, ts: Date.now() });
+  chatInputEl.value = "";
+}
 
   const name = sanitizeName(chatNameEl.value);
   chatNameEl.value = name;
