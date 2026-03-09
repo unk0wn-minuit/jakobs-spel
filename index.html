@@ -835,7 +835,18 @@
     function sanitizeText(v) {
       return (v || "").replace(/\s+/g, " ").trim().slice(0, 200);
     }
+const bannedWords = [
+  "nigger",
+  "hitler",
+  "alve",
+  "bernflo", 
+  "epsteien"
+];
 
+function containsBannedWord(text) {
+  const lower = text.toLowerCase();
+  return bannedWords.some(word => lower.includes(word));
+}
     function addChatMessage(msg) {
       const box = document.createElement("div");
       box.className = "chat-msg";
@@ -858,17 +869,22 @@
       addChatMessage({ name: "System", text, ts: Date.now() });
     }
 
-    function sendChatMessage() {
-      const text = sanitizeText(chatInputEl.value);
-      if (!text || !chatRef) return;
+function sendChatMessage() {
+  const text = sanitizeText(chatInputEl.value);
+  if (!text || !chatRef) return;
 
-      const name = sanitizeName(chatNameEl.value);
-      chatNameEl.value = name;
-      localStorage.setItem("chatName", name);
+  if (containsBannedWord(text)) {
+    alert("Ditt meddelande innehåller ord som inte är tillåtna.");
+    return;
+  }
 
-      chatRef.push({ name, text, ts: Date.now() });
-      chatInputEl.value = "";
-    }
+  const name = sanitizeName(chatNameEl.value);
+  chatNameEl.value = name;
+  localStorage.setItem("chatName", name);
+
+  chatRef.push({ name, text, ts: Date.now() });
+  chatInputEl.value = "";
+}
 
     function renderRecommended() {
       recommendedRow.innerHTML = "";
