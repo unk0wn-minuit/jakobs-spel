@@ -585,44 +585,6 @@
         top: 66px;
         height: 46dvh;
       }
-      .discord-btn{
-display:inline-block;
-margin-top:15px;
-padding:14px 22px;
-border-radius:14px;
-font-size:16px;
-font-weight:700;
-text-decoration:none;
-color:white;
-
-background:linear-gradient(135deg,#5865F2,#404EED);
-
-box-shadow:
-0 6px 14px rgba(0,0,0,0.4),
-inset 0 2px 4px rgba(255,255,255,0.15);
-
-transition:
-transform .15s ease,
-box-shadow .15s ease,
-filter .2s ease;
-}
-
-.discord-btn:hover{
-transform:translateY(-3px) scale(1.03);
-filter:brightness(1.1);
-
-box-shadow:
-0 12px 22px rgba(0,0,0,0.55),
-inset 0 2px 6px rgba(255,255,255,0.25);
-}
-
-.discord-btn:active{
-transform:translateY(2px) scale(.97);
-
-box-shadow:
-0 3px 8px rgba(0,0,0,0.45),
-inset 0 3px 6px rgba(0,0,0,0.35);
-}
     }
   </style>
 <body class="blue">
@@ -636,7 +598,7 @@ inset 0 3px 6px rgba(0,0,0,0.35);
       <button class="sidebar-btn" onclick="showRecent()"><span class="icon">⏱</span><span class="label">Senaste</span></button>
       <button class="sidebar-btn" onclick="openIframe('https://alv3333.github.io/Coola-Mattespel-Soundboard.github.io/')"><span class="icon">🔊</span><span class="label">Soundboard</span></button>
       <button class="sidebar-btn" onclick="openIframe('https://studio.pickaxe.co/STUDIOGX4LHRY55GYHQ15/295XP68K97')"><span class="icon">🤖</span><span class="label">AI</span></button>
-      <button class="sidebar-btn" onclick="openIframe('https://mattematikpluggeri.joe.dj')"><span class="icon">🔎</span><span class="label">Browser</span></button>
+      <button class="sidebar-btn" onclick="openIframe('https://pluggamattematik.cdpa.cc')"><span class="icon">🔎</span><span class="label">Browser</span></button>
       <button class="sidebar-btn" onclick="openIframe('https://docs.google.com/forms/d/e/1FAIpQLScUxR7Ychb0ivMguYI-3BHwb8D3ZH2x7n1vkpXuYjNeVlU3Cg/viewform?usp=header')"><span class="icon">📩</span><span class="label">Förslag</span></button>
       <button class="sidebar-btn" onclick="openThemePopup()"><span class="icon">🎨</span><span class="label">Tema</span></button>
     </div>
@@ -883,7 +845,7 @@ const bannedWords = [
   "hitler",
   "alve",
   "bernflo", 
-  "epstien",
+  "epsteien",
   "fitta", 
   "neger", 
   "hor",
@@ -925,24 +887,10 @@ function sendChatMessage() {
   const text = sanitizeText(chatInputEl.value);
   if (!text || !chatRef) return;
 
-  const name = sanitizeName(chatNameEl.value);
-
-  if (containsBannedWord(name)) {
-    alert("Ditt användarnamn innehåller ord som inte är tillåtna, sluta.");
-    return;
-  }
-
   if (containsBannedWord(text)) {
-    alert("Ditt meddelande innehåller ord som inte är tillåtna, sluta försöka");
+    alert("Ditt meddelande innehåller ord som inte är tillåtna.");
     return;
   }
-
-  chatNameEl.value = name;
-  localStorage.setItem("chatName", name);
-
-  chatRef.push({ name, text, ts: Date.now() });
-  chatInputEl.value = "";
-}
 
   const name = sanitizeName(chatNameEl.value);
   chatNameEl.value = name;
