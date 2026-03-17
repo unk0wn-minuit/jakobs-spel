@@ -575,7 +575,7 @@ function openPanelOverlay(name){
   document.body.style.overflow="hidden";
   if(name==="discord"){
     var fr=document.getElementById("discordFrame");
-    if(fr&&!fr.src)fr.src="https://mescord.jakobb.se";
+    if(fr&&!fr.dataset.loaded){fr.src="https://mescord.jakobb.se";fr.dataset.loaded="1";}
   }else if(_overlayRenders[name]){
     setTimeout(_overlayRenders[name],10);
   }
