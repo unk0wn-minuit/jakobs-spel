@@ -67,7 +67,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
 .sideHead h3{font-size:15px;font-weight:700;color:var(--w);}
 .closeBtn{width:30px;height:30px;border-radius:8px;background:none;border:1px solid var(--line);color:var(--m);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .2s;}
 .closeBtn:hover{background:rgba(123,44,255,.2);}
-.sideNavList{display:flex;flex-direction:column;padding:8px;gap:2px;flex-shrink:0;}
+.sideNavList{display:flex;flex-direction:column;padding:8px;gap:2px;flex:1;overflow-y:auto;}.sideNavList::-webkit-scrollbar{width:3px;}.sideNavList::-webkit-scrollbar-thumb{background:var(--p2);border-radius:2px;}
 .sideNavBtn{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:none;border:none;color:var(--m);cursor:pointer;font-size:15px;font-weight:600;text-align:left;transition:all .2s;width:100%;}
 .sideNavBtn:hover{background:rgba(123,44,255,.15);color:var(--w);}
 .sideNavBtn.active{background:rgba(123,44,255,.25);color:var(--w);border:1px solid rgba(123,44,255,.4);}
