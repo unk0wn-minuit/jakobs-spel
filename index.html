@@ -272,8 +272,8 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<div class="bg">
-<div id="loaderOverlay" class="loader-overlay"><div class="loader-box"><div class="loader-title" id="loaderTitle">Loading...</div><div class="loader-bar-track"><div class="loader-bar" id="loaderBar"></div></div><div class="loader-msg" id="loaderMsg"></div></div></div><div class="bg-grid"></div><div class="bg-noise"></div><div class="bg-orb o1"></div><div class="bg-orb o2"></div><div class="bg-orb o3"></div></div>
+<div class="bg"><div class="bg-grid"></div><div class="bg-noise"></div><div class="bg-orb o1"></div><div class="bg-orb o2"></div><div class="bg-orb o3"></div></div>
+<div id="loaderOverlay" class="loader-overlay"><div class="loader-box"><div class="loader-title" id="loaderTitle">Loading...</div><div class="loader-bar-track"><div class="loader-bar" id="loaderBar"></div></div><div class="loader-msg" id="loaderMsg"></div></div></div>
 <div class="toastContainer" id="toastContainer"></div>
 
 <header class="topbar">
@@ -316,7 +316,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
     <button class="sideNavBtn" data-tab="discord" onclick="openDiscord()"><span class="sideNavIcon">🟣</span><span class="sideNavLabel">Discord</span></button>
     <button class="sideNavBtn" onclick="openBrowser('browser')"><span class="sideNavIcon">🌐</span><span class="sideNavLabel">Browser</span></button>
     <button class="sideNavBtn" onclick="openBrowser('ai')"><span class="sideNavIcon">🤖</span><span class="sideNavLabel">Jakob AI</span></button>
-    <button class="sideNavBtn" data-tab="changelog" onclick="openPanelOverlay('changelog')"><span class="sideNavIcon">📢</span><span class="sideNavLabel">Updates</span></button>
+    <button class="sideNavBtn" data-tab="updates" onclick="switchSideTab('updates')"><span class="sideNavIcon">📢</span><span class="sideNavLabel">Updates</span></button>
     <button class="sideNavBtn" id="adminNav" data-tab="admin" onclick="openPanelOverlay('admin')" style="display:none"><span class="sideNavIcon">🛡</span><span class="sideNavLabel" data-i18n="nav_admin">Admin</span></button>
   </nav>
   <div class="sideContent" id="sideContent">
@@ -334,6 +334,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
     </div>
     <div class="sidePanel" id="panel_quests"></div>
     <div class="sidePanel" id="panel_butik"></div>
+    <div class="sidePanel" id="panel_updates"></div>
     <div class="sidePanel" id="panel_instaellningar"></div>
     <div class="sidePanel" id="panel_admin"></div>
       <div class="sidePanel" id="panel_discord">
@@ -590,7 +591,7 @@ function hideLoader(){
     if(o)o.classList.remove("visible");
     if(msg)msg.classList.remove("visible");
     setTimeout(function(){if(bar){bar.style.transition="";bar.style.width="0";}},400);
-  },250);
+  },wait+250);
 }
 
 /* ---- PANEL FADE ---- */
@@ -899,7 +900,7 @@ function switchSideTab(tab){
   var panel=document.getElementById("panel_"+tab);
   if(panel){panel.classList.add("active");
     panel.style.animation="none";panel.offsetHeight;panel.style.animation="panelIn .25s ease";
-    var renders={favoriter:renderFavsPanel,teman:renderThemePanel,quests:renderQuestsPanel,butik:renderShopPanel,instaellningar:renderSettingsPanel,profil:renderProfilePanel,admin:renderAdminPanel};
+    var renders={favoriter:renderFavsPanel,teman:renderThemePanel,quests:renderQuestsPanel,butik:renderShopPanel,instaellningar:renderSettingsPanel,profil:renderProfilePanel,admin:renderAdminPanel,updates:renderUpdatesPanel};
     if(renders[tab])renders[tab]();
   }
 }
@@ -948,8 +949,17 @@ function renderThemePanel(){
     card.classList.add("active");
   });
 }
+function renderUpdatesPanel(){
+  var el=document.getElementById('panel_updates');
+  if(!el)return;
+  _renderChangelogHTML(el);
+}
 function renderChangelogPanel(){
   var el=document.getElementById('changelogOverlayBody');
+  if(!el)return;
+  _renderChangelogHTML(el);
+}
+function _renderChangelogHTML(el){
   if(!el)return;
   var logs=[
     {v:"v2.5",d:"2025-06",tag:"new",title:"Discord integration",items:[
@@ -1025,7 +1035,7 @@ function renderQuestsPanel(){
   if(!el)return;
   if(!state.user){el.innerHTML="<p style='color:var(--d);padding:20px;text-align:center'>Logga in för att se quests</p>";return;}
   var quests=getQuests();
-  var cats={daily:'\U0001F4C5 Dagliga Quests',social:'\U0001F465 Sociala',milestone:'\U0001F3C6 Milstolpar'};
+  var cats={daily:'📅 Dagliga Quests',social:'👥 Sociala',milestone:'🏆 Milstolpar'};
   var catOrder=['daily','social','milestone'];
   var h='<div style="padding:4px 0">';
   // XP/coins summary
