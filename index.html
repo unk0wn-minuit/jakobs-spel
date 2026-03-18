@@ -438,8 +438,8 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
   <div class="sideHead"><h3>🎮 Meny</h3><button class="closeBtn" onclick="closeSidebar()">✕</button></div>
   <nav class="sideNavList">
     <button class="sideNavBtn active" data-tab="favoriter" onclick="openPanelOverlay('fav')"><span class="sideNavIcon">⭐</span><span class="sideNavLabel" data-i18n="nav_favs">Favorites</span></button>
-    <button class="sideNavBtn" data-tab="profil" onclick="switchSideTab('profil')"><span class="sideNavIcon">👤</span><span class="sideNavLabel" data-i18n="nav_profile">Profile</span></button>
-    <button class="sideNavBtn" data-tab="teman" onclick="switchSideTab('teman')"><span class="sideNavIcon">🎨</span><span class="sideNavLabel" data-i18n="nav_themes">Themes</span></button>
+    <button class="sideNavBtn" onclick="openProfileWindow()"><span class="sideNavIcon">👤</span><span class="sideNavLabel" data-i18n="nav_profile">Profile</span></button>
+    <button class="sideNavBtn" onclick="openThemesWindow()"><span class="sideNavIcon">🎨</span><span class="sideNavLabel" data-i18n="nav_themes">Themes</span></button>
     <button class="sideNavBtn" data-tab="forslag" onclick="switchSideTab('forslag')"><span class="sideNavIcon">💡</span><span class="sideNavLabel" data-i18n="nav_suggest">Suggest</span></button>
     <button class="sideNavBtn" data-tab="quests" onclick="switchSideTab('quests')"><span class="sideNavIcon">📋</span><span class="sideNavLabel">Quests</span></button>
     <button class="sideNavBtn" data-tab="butik" onclick="openPanelOverlay('butik')"><span class="sideNavIcon">🛒</span><span class="sideNavLabel">Mynt-butik</span></button>
@@ -538,6 +538,30 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
         <div id="igpRatingStars" style="display:flex;align-items:center;gap:2px"></div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="appOverlay" id="profileWinOverlay" onclick="if(event.target===this)closeProfileWindow()">
+  <div class="appWin" id="profileWin" style="width:min(340px,95vw);height:min(620px,92vh);display:flex;flex-direction:column">
+    <div class="winBar" id="profileWinBar">
+      <div class="winBar-title"><span class="winBar-icon">👤</span> Profil</div>
+      <div class="winBar-controls">
+        <button class="winBtn wClose" onclick="closeProfileWindow()">✕</button>
+      </div>
+    </div>
+    <div class="appBody" id="profileWinBody" style="padding:0;overflow-y:auto"></div>
+  </div>
+</div>
+
+<div class="appOverlay" id="themesWinOverlay" onclick="if(event.target===this)closeThemesWindow()">
+  <div class="appWin" id="themesWin" style="width:min(360px,95vw);height:min(500px,88vh);display:flex;flex-direction:column">
+    <div class="winBar" id="themesWinBar">
+      <div class="winBar-title"><span class="winBar-icon">🎨</span> Teman</div>
+      <div class="winBar-controls">
+        <button class="winBtn wClose" onclick="closeThemesWindow()">✕</button>
+      </div>
+    </div>
+    <div class="appBody" id="themesWinBody" style="overflow-y:auto"></div>
   </div>
 </div>
 
@@ -2178,11 +2202,104 @@ function closeInventoryWindow(){
   var ov=document.getElementById('inventoryOverlay');
   if(ov){ov.classList.remove('open');setTimeout(function(){ov.style.display='none';},200);}
 }
+function openProfileWindow(){
+  if(!state.user){toast('Logga in först','error');return;}
+  var ov=document.getElementById('profileWinOverlay');if(!ov)return;
+  _resetWinPos(document.getElementById('profileWin'));
+  ov.style.display='flex';
+  setTimeout(function(){ov.classList.add('open');_renderProfileWinBody();},10);
+  closeSidebar();
+}
+function closeProfileWindow(){
+  var ov=document.getElementById('profileWinOverlay');
+  if(ov){ov.classList.remove('open');setTimeout(function(){ov.style.display='none';},200);}
+}
+function _renderProfileWinBody(){
+  var el=document.getElementById('profileWinBody');if(!el)return;
+  if(!state.user){el.innerHTML="<p style='color:var(--d);padding:20px;text-align:center'>Logga in</p>";return;}
+  var av=localStorage.getItem('avatar_'+state.user)||'';
+  var eq=getEquipped();
+  var ext=getProfileExt(state.user);
+  var frameClass=getFrameClass(eq.frame||null);
+  var nameClass=getNameClass(eq.nameeffect||null);
+  var badgesHTML=eq.badge?getBadgeHTML(eq.badge):'';
+  var bannerStyle=ext.customBanner?'background:url('+ext.customBanner+') center/cover no-repeat;':getBannerStyle(eq.effect||null);
+  var avatarInner=av
+    ?'<img src="'+av+'" style="width:80px;height:80px;border-radius:50%;object-fit:cover;display:block" class="'+frameClass+'">'
+    :'<div style="width:80px;height:80px;border-radius:50%;background:var(--p0);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff" class="'+frameClass+'">👤</div>';
+  var friends=JSON.parse(localStorage.getItem('friends_'+state.user)||'[]');
+  el.innerHTML=
+    '<div style="'+bannerStyle+';height:80px;position:relative;margin-bottom:50px;flex-shrink:0">'
+    +'<label for="pwPicInput" style="position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);cursor:pointer;display:block">'
+    +avatarInner
+    +'<div style="position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:var(--p0);display:flex;align-items:center;justify-content:center;font-size:10px;border:2px solid var(--bg0)">📷</div>'
+    +'</label></div>'
+    +'<input type="file" id="pwPicInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(this);setTimeout(_renderProfileWinBody,300)">'
+    +'<div style="text-align:center;padding:0 16px 10px">'
+    +'<div style="font-size:18px;font-weight:900;margin-bottom:3px" class="'+nameClass+'">'+state.user+'</div>'
+    +(ext.status?'<div style="font-size:12px;color:var(--d);display:flex;align-items:center;justify-content:center;gap:5px;margin-bottom:4px"><span style="width:8px;height:8px;border-radius:50%;background:#3ba55c;display:inline-block"></span>'+ext.status+'</div>':'')
+    +(badgesHTML?'<div style="display:flex;justify-content:center;flex-wrap:wrap;gap:4px;margin:4px 0">'+badgesHTML+'</div>':'')
+    +'<div style="font-size:12px;color:var(--d);margin-bottom:4px">Nivå '+state.level+' · '+state.xp+' XP</div>'
+    +(ext.bio?'<div style="font-size:12px;color:var(--m);background:rgba(123,44,255,.08);border-radius:8px;padding:8px;margin:6px 0;border-left:2px solid var(--p0);text-align:left">'+ext.bio+'</div>':'')
+    +'</div>'
+    +'<div style="display:flex;gap:8px;margin:0 12px 10px"><div class="statBox"><span>'+state.coins+'</span><small>Mynt</small></div>'
+    +'<div class="statBox"><span>'+state.favorites.length+'</span><small>Favoriter</small></div>'
+    +'<div class="statBox"><span>'+friends.length+'</span><small>Vänner</small></div></div>'
+    +'<div style="padding:0 12px 12px;display:flex;flex-direction:column;gap:6px">'
+    +'<button class="pill primary" style="width:100%;justify-content:center" onclick="closeProfileWindow();viewProfile(state.user)">👤 Visa profil</button>'
+    +'<button class="pill ghost" style="width:100%;justify-content:center" onclick="openProfileEditModal()">✏️ Redigera bio/status</button>'
+    +'<button class="pill ghost" style="width:100%;justify-content:center" onclick="closeProfileWindow();openInventoryWindow()">🎒 Inventory</button>'
+    +'<button class="pill ghost" style="width:100%;justify-content:center" onclick="closeProfileWindow();doLogout()">🔒 Logga ut</button>'
+    +'</div>';
+}
+function openThemesWindow(){
+  var ov=document.getElementById('themesWinOverlay');if(!ov)return;
+  _resetWinPos(document.getElementById('themesWin'));
+  ov.style.display='flex';
+  setTimeout(function(){
+    ov.classList.add('open');
+    /* Render themes into window body */
+    var body=document.getElementById('themesWinBody');
+    if(!body)return;
+    var cur=state.settings.theme||'purple';
+    var themes=[
+      {id:'purple',name:T('colors_purple'),c1:'#7b2cff',c2:'#3a00b7'},
+      {id:'neon',name:T('colors_neon'),c1:'#00ffcc',c2:'#007a5e'},
+      {id:'gold',name:T('colors_gold'),c1:'#ffaa00',c2:'#a06800'},
+      {id:'red',name:T('colors_red'),c1:'#ff2d55',c2:'#8b0000'},
+      {id:'blue',name:T('colors_blue'),c1:'#0ea5e9',c2:'#1e40af'},
+      {id:'pink',name:T('colors_pink'),c1:'#ec4899',c2:'#9d174d'}
+    ];
+    var grid='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px">';
+    themes.forEach(function(t){
+      var active=cur===t.id;
+      grid+='<div class="themeCard'+(active?' active':'')+'" data-tid="'+t.id+'" onclick="applyTheme(this.dataset.tid);this.closest(\'div\').querySelectorAll(\'.themeCard\').forEach(function(c){c.classList.remove(\'active\')});this.classList.add(\'active\')">'
+        +'<div class="themeColor" style="background:linear-gradient(135deg,'+t.c1+','+t.c2+')"></div>'
+        +'<p>'+t.name+'</p></div>';
+    });
+    grid+='</div>';
+    /* Dark mode toggle */
+    var dm=state.settings.darkMode!==false;
+    grid+='<div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.05);border-radius:12px;border:1px solid var(--line)">'
+      +'<span style="font-size:13px;font-weight:600;color:var(--m)">🌙 Mörkt läge</span>'
+      +'<label style="position:relative;display:inline-block;width:44px;height:24px;cursor:pointer">'
+      +'<input type="checkbox" id="twDarkToggle" '+(dm?'checked':'')+' onchange="applyDarkMode(this.checked);state.settings.darkMode=this.checked;saveState()" style="opacity:0;width:0;height:0">'
+      +'<span style="position:absolute;inset:0;background:'+(dm?'var(--p0)':'rgba(255,255,255,.2)')+';border-radius:24px;transition:.3s">'
+      +'<span style="position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:'+(dm?'23px':'3px')+';transition:.3s"></span>'
+      +'</span></label></div>';
+    body.innerHTML=grid;
+  },10);
+  closeSidebar();
+}
+function closeThemesWindow(){
+  var ov=document.getElementById('themesWinOverlay');
+  if(ov){ov.classList.remove('open');setTimeout(function(){ov.style.display='none';},200);}
+}
 function openSoundboardWindow(){
   var ov=document.getElementById('soundboardOverlay');if(!ov)return;
   _resetWinPos(document.getElementById('soundboardWin'));
   var fr=document.getElementById('soundboardFrame');
-  if(fr&&!fr.src.includes('jakobsigma'))fr.src='https://jakobsigma.github.io/Sound-board/';
+  if(fr)fr.src='https://jakobsigma.github.io/Sound-board/';
   ov.style.display='flex';
   setTimeout(function(){ov.classList.add('open');},10);
   closeSidebar();
@@ -2279,6 +2396,12 @@ document.addEventListener("DOMContentLoaded",function(){
   var sbWin=document.getElementById('soundboardWin');
   var sbBar=document.getElementById('soundboardWinBar');
   if(sbWin&&sbBar)makeDraggable(sbWin,sbBar);
+  var profWin=document.getElementById('profileWin');
+  var profBar=document.getElementById('profileWinBar');
+  if(profWin&&profBar)makeDraggable(profWin,profBar);
+  var thWin=document.getElementById('themesWin');
+  var thBar=document.getElementById('themesWinBar');
+  if(thWin&&thBar)makeDraggable(thWin,thBar);
   document.querySelectorAll('.panelWin').forEach(function(pw){
     var ph=pw.querySelector('.panelHead');
     if(ph)makeDraggable(pw,ph);
