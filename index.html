@@ -178,9 +178,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
 .favBtn.active{background:rgba(123,44,255,.2);border-color:var(--p1);color:#ffd700;}
 .loadMoreBtn{display:block;margin:0 auto 40px;padding:13px 36px;border-radius:40px;background:linear-gradient(135deg,var(--p0),var(--p2));color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;box-shadow:var(--shadow2);transition:all .2s;}
 .loadMoreBtn:hover{opacity:.9;transform:translateY(-2px);}
-.gameOverlay{position:fixed;inset:0;background:#000;z-index:900;display:none;flex-direction:column;}.gameBarInfo{flex:1;min-width:0;}.gameBarTitle{font-size:15px;font-weight:800;color:var(--w);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:linear-gradient(135deg,var(--w),var(--p1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}.gameBarSub{font-size:11px;color:var(--d);margin-top:1px;}.gameBarActions{display:flex;align-items:center;gap:6px;flex-shrink:0;}.gameBarBtn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:30px;border:1px solid var(--line);background:var(--glass);color:var(--m);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;backdrop-filter:blur(10px);}.gameBarBtn:hover{background:rgba(123,44,255,.2);border-color:var(--p0);color:var(--w);}.gameBarBtn.primary{background:linear-gradient(135deg,var(--p0),var(--p2));color:#fff;border-color:transparent;}.gameBarBtn.primary:hover{opacity:.9;}.gameBarBtnLabel{font-size:12px;}@media(max-width:600px){.gameBarBtn .gameBarBtnLabel{display:none;}.gameBarBtn{padding:7px 10px;}}
-.gameOverlay.open{display:flex;}
-.gameBar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:linear-gradient(135deg,var(--bg2),var(--bg1));border-bottom:2px solid var(--p0);flex-shrink:0;min-height:54px;}
+.gameOverlay{position:fixed;inset:0;background:var(--bg0);z-index:900;display:none;flex-direction:column;}.gameOverlay.open{display:flex;}.gameBar{display:flex;align-items:center;gap:10px;padding:0 16px;height:56px;background:var(--glass);border-bottom:2px solid var(--p0);flex-shrink:0;backdrop-filter:blur(16px);}.gameBarLeft{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}.gameBarCenter{position:absolute;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;}.gameBarTitle{font-size:22px;font-weight:900;color:var(--w);letter-spacing:-.02em;background:linear-gradient(135deg,var(--w),var(--p1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;}.gameBarRight{display:flex;align-items:center;gap:8px;flex:1;justify-content:flex-end;}.gameBarBtn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:30px;border:1px solid var(--line);background:var(--glass);color:var(--m);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;backdrop-filter:blur(10px);}.gameBarBtn:hover{background:rgba(123,44,255,.2);border-color:var(--p0);color:var(--w);}.gameBarBtn.primary{background:linear-gradient(135deg,var(--p0),var(--p2));color:#fff;border-color:transparent;}.gameBarBtn.primary:hover{opacity:.9;}.gameMain{flex:1;display:flex;position:relative;overflow:hidden;}.gameQuestWidget{position:absolute;top:12px;right:12px;width:240px;z-index:10;background:rgba(17,24,39,.92);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;backdrop-filter:blur(12px);box-shadow:0 4px 24px rgba(0,0,0,.5);transition:opacity .2s;pointer-events:none;}.gameQuestWidget.hidden{opacity:0;}.gameQuestWidgetTitle{font-size:11px;font-weight:800;color:var(--p1);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}.gameQuestWidgetName{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}.gameQuestWidgetProg{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:6px;}.gameQuestWidgetBar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;}.gameQuestWidgetFill{height:100%;background:linear-gradient(90deg,var(--p0),var(--p1));border-radius:2px;transition:width .5s;}@media(max-width:600px){.gameQuestWidget{width:160px;top:8px;right:8px;padding:8px 10px;}}
 
 .gameFrame{flex:1;border:none;width:100%;height:100%;}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:none;align-items:center;justify-content:center;}
@@ -222,7 +220,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
 /* ---- LADDNINGS-ANIMATION ---- */
 .loader-overlay{position:fixed;inset:0;z-index:99999;background:rgba(6,8,18,.97);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;}.loader-overlay.visible{opacity:1!important;pointer-events:all;}.loader-box{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:32px 44px;text-align:center;width:420px;max-width:90vw;box-shadow:0 8px 40px rgba(0,0,0,.7);}.loader-title{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.01em;margin-bottom:18px;}.loader-bar-track{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-bottom:12px;}.loader-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--p2,#3a00b7),var(--p1,#9b4dff),var(--p0,#c084fc));background-size:200% 100%;border-radius:3px;}.loader-bar.going{animation:barGrow 2.6s ease-out forwards;}@keyframes barGrow{0%{width:0%}40%{width:55%}75%{width:82%}100%{width:94%}}.loader-msg{font-size:12px;color:rgba(255,255,255,.45);min-height:16px;}
 
-.browserOverlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:none;align-items:center;justify-content:center;}.browserOverlay.open{display:flex;}.browserWin{width:95vw;height:92vh;max-width:1500px;background:var(--p3);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;transition:all .25s;box-shadow:0 30px 80px rgba(0,0,0,.6);}.aiWin{width:min(800px,95vw);height:min(760px,92vh);max-width:800px;}.browserWin.bfull{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;max-width:none!important;border-radius:0!important;}.browserBar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--glass);flex-shrink:0;}.browserBar h3{flex:1;margin:0;font-size:14px;font-weight:700;color:var(--w);}.browserBar button{background:none;border:none;color:var(--d);font-size:16px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background .15s;}.browserBar button:hover{background:var(--glass);color:var(--w);}.browserFrame{flex:1;border:none;width:100%;}.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px;}
+.browserOverlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;display:none;align-items:center;justify-content:center;}.browserOverlay.open{display:flex;}.browserWin{width:95vw;height:92vh;max-width:1500px;background:var(--p3);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;transition:all .25s;box-shadow:0 30px 80px rgba(0,0,0,.6);}.aiWin{width:min(700px,92vw);height:min(600px,86vh);max-width:700px;}.browserWin.bfull{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;max-width:none!important;border-radius:0!important;}.browserBar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--glass);flex-shrink:0;}.browserBar h3{flex:1;margin:0;font-size:14px;font-weight:700;color:var(--w);}.browserBar button{background:none;border:none;color:var(--d);font-size:16px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background .15s;}.browserBar button:hover{background:var(--glass);color:var(--w);}.browserFrame{flex:1;border:none;width:100%;}.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px;}
 .profile-card{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:12px;padding:16px;}
 .profile-card h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--d);margin-bottom:12px;}
 .profile-stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
@@ -268,6 +266,13 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
 .panelWin .panelHead,.chatHead{background:rgba(255,255,255,.04);}
 .sidePanel,.sugForm,.favItem,.shopItem,.questItem,.adminUserRow{border-radius:12px;}
 .gameBar{border-radius:0!important;}
+
+/* ---- UPDATES PAGE ---- */
+.updatesPage{position:fixed;inset:0;background:var(--bg0);z-index:901;display:none;flex-direction:column;overflow:hidden;}
+.updatesPage.open{display:flex;}
+.updatesBar{display:flex;align-items:center;gap:14px;padding:0 20px;height:56px;background:var(--glass);border-bottom:2px solid var(--p0);flex-shrink:0;backdrop-filter:blur(16px);}
+.updatesBar h2{flex:1;text-align:center;font-size:20px;font-weight:900;margin:0;background:linear-gradient(135deg,var(--w),var(--p1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.updatesContent{flex:1;overflow-y:auto;padding:24px;max-width:760px;margin:0 auto;width:100%;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -309,14 +314,14 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
     <button class="sideNavBtn" data-tab="profil" onclick="switchSideTab('profil')"><span class="sideNavIcon">👤</span><span class="sideNavLabel" data-i18n="nav_profile">Profile</span></button>
     <button class="sideNavBtn" data-tab="teman" onclick="switchSideTab('teman')"><span class="sideNavIcon">🎨</span><span class="sideNavLabel" data-i18n="nav_themes">Themes</span></button>
     <button class="sideNavBtn" data-tab="forslag" onclick="switchSideTab('forslag')"><span class="sideNavIcon">💡</span><span class="sideNavLabel" data-i18n="nav_suggest">Suggest</span></button>
-    <button class="sideNavBtn" data-tab="quests" onclick="openPanelOverlay('quests')"><span class="sideNavIcon">📋</span><span class="sideNavLabel">Quests</span></button>
+    <button class="sideNavBtn" data-tab="quests" onclick="switchSideTab('quests')"><span class="sideNavIcon">📋</span><span class="sideNavLabel">Quests</span></button>
     <button class="sideNavBtn" data-tab="butik" onclick="openPanelOverlay('butik')"><span class="sideNavIcon">🛒</span><span class="sideNavLabel">Mynt-butik</span></button>
     <button class="sideNavBtn" data-tab="instaellningar" onclick="switchSideTab('instaellningar')"><span class="sideNavIcon">⚙️</span><span class="sideNavLabel" data-i18n="nav_settings">Settings</span></button>
     <button class="sideNavBtn" onclick="closeSidebar();openChat()"><span class="sideNavIcon">💬</span><span class="sideNavLabel" data-i18n="nav_chat">Chat</span></button>
     <button class="sideNavBtn" data-tab="discord" onclick="openDiscord()"><span class="sideNavIcon">🟣</span><span class="sideNavLabel">Discord</span></button>
     <button class="sideNavBtn" onclick="openBrowser('browser')"><span class="sideNavIcon">🌐</span><span class="sideNavLabel">Browser</span></button>
     <button class="sideNavBtn" onclick="openBrowser('ai')"><span class="sideNavIcon">🤖</span><span class="sideNavLabel">Jakob AI</span></button>
-    <button class="sideNavBtn" data-tab="updates" onclick="switchSideTab('updates')"><span class="sideNavIcon">📢</span><span class="sideNavLabel">Updates</span></button>
+    <button class="sideNavBtn" data-tab="updates" onclick="openUpdatesPage()"><span class="sideNavIcon">📢</span><span class="sideNavLabel">Updates</span></button>
     <button class="sideNavBtn" id="adminNav" data-tab="admin" onclick="openPanelOverlay('admin')" style="display:none"><span class="sideNavIcon">🛡</span><span class="sideNavLabel" data-i18n="nav_admin">Admin</span></button>
   </nav>
   <div class="sideContent" id="sideContent">
@@ -343,22 +348,45 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
   </div>
 </div>
 
+<div class="updatesPage" id="updatesPage">
+  <div class="updatesBar">
+    <button class="gameBarBtn" onclick="closeUpdatesPage()" style="gap:6px;flex-shrink:0">
+      <span>☰</span> <span style="font-size:12px">Tillbaka</span>
+    </button>
+    <h2>📢 Update Logs</h2>
+    <div style="width:100px"></div>
+  </div>
+  <div class="updatesContent" id="updatesPageBody"></div>
+</div>
+
 <div class="gameOverlay" id="gameOverlay">
   <div class="gameBar">
-    <button class="gameBarBtn" onclick="closeGame()" title="Close">
-      <span style="font-size:14px">←</span><span class="gameBarBtnLabel">Back</span>
-    </button>
-    <div class="gameBarInfo">
-      <div class="gameBarTitle" id="gameTitle">Game</div>
-      <div class="gameBarSub" id="gameSubInfo"></div>
+    <div class="gameBarLeft">
+      <button class="gameBarBtn" onclick="closeGame()" title="Tillbaka" style="gap:6px">
+        <span>☰</span> <span style="font-size:12px">Tillbaka</span>
+      </button>
     </div>
-    <div class="gameBarActions">
-      <button class="gameBarBtn" onclick="document.getElementById('gameFrame').src=document.getElementById('gameFrame').src" title="Reload">🔄</button>
-      <button class="gameBarBtn" onclick="toggleGameFav()" id="gameFavBtn" title="Favorite">☆</button>
+    <div class="gameBarCenter">
+      <div class="gameBarTitle" id="gameTitle">Game</div>
+    </div>
+    <div class="gameBarRight">
+      <button class="gameBarBtn" onclick="toggleGameFav()" id="gameFavBtn" title="Favorit" style="font-size:16px;padding:6px 10px">☆</button>
+      <button class="gameBarBtn" onclick="document.getElementById('gameFrame').src=document.getElementById('gameFrame').src" title="Ladda om" style="padding:6px 10px">🔄</button>
       <button class="gameBarBtn primary" onclick="goFullscreen()" title="Fullscreen">⛶ Fullscreen</button>
+      <button class="gameBarBtn" onclick="closeGame();openProfileOverlay()" style="font-weight:700;background:linear-gradient(135deg,var(--p0),var(--p2));color:#fff;border-color:transparent">
+        👤 Profil
+      </button>
     </div>
   </div>
-  <iframe class="gameFrame" id="gameFrame" src="about:blank" allowfullscreen allow="fullscreen;autoplay"></iframe>
+  <div class="gameMain">
+    <iframe class="gameFrame" id="gameFrame" src="about:blank" allowfullscreen allow="fullscreen;autoplay"></iframe>
+    <div class="gameQuestWidget hidden" id="gameQuestWidget">
+      <div class="gameQuestWidgetTitle">🎮 Quest progression</div>
+      <div class="gameQuestWidgetName" id="gqwName">—</div>
+      <div class="gameQuestWidgetProg" id="gqwProg">0 / 0</div>
+      <div class="gameQuestWidgetBar"><div class="gameQuestWidgetFill" id="gqwFill" style="width:0%"></div></div>
+    </div>
+  </div>
 </div>
 
 <div class="chatOverlay" id="chatOverlay" onclick="if(event.target===this)closeChat()">
@@ -818,7 +846,7 @@ function unlockGame(idx){
   ul.push(idx);localStorage.setItem("unlocked_"+state.user,JSON.stringify(ul));
   saveState();updateHUD();toast("Spel upplåst!");renderGames();
 }
-function openGame(i){var g=GAMES[i];if(!g)return;if(gameIsLocked(i)){toast('Lås upp spelet i butiken!','error');return;}var gName=g.name.replace(/^cl/i,'').trim();_currentGameIdx=i;var fb=document.getElementById('gameFavBtn');if(fb)fb.textContent=(state.favorites.indexOf(i)>=0)?'★':'☆';var si=document.getElementById('gameSubInfo');if(si)si.textContent=(g.cat||'');showLoader('Loading '+gName);setTimeout(function(){  document.getElementById('gameTitle').textContent=gName;  document.getElementById('gameOverlay').style.display='flex';  var fr=document.getElementById('gameFrame');  if(fr){fr.onload=function(){hideLoader();fr.onload=null;};fr.src='UGS-Files/'+g.f;}},80);addCoins(1);var recent=JSON.parse(localStorage.getItem('recentGames')||'[]');var today=new Date().toDateString();if(!recent.find(function(r){return r.f===g.f&&r.date===today;})){recent.unshift({f:g.f,name:g.name,date:today});if(recent.length>50)recent.pop();localStorage.setItem('recentGames',JSON.stringify(recent));state.gamesPlayed=(state.gamesPlayed||0)+1;}window._gameStartTime=Date.now();updateQuests();saveState();}
+function openGame(i){var g=GAMES[i];if(!g)return;if(gameIsLocked(i)){toast('Lås upp spelet i butiken!','error');return;}var gName=g.name.replace(/^cl/i,'').trim();_currentGameIdx=i;var fb=document.getElementById('gameFavBtn');if(fb)fb.textContent=(state.favorites.indexOf(i)>=0)?'★':'☆';var si=document.getElementById('gameSubInfo');if(si)si.textContent=(g.cat||'');showLoader('Loading '+gName);setTimeout(function(){  document.getElementById('gameTitle').textContent=gName;  document.getElementById('gameOverlay').style.display='flex';  var fr=document.getElementById('gameFrame');  if(fr){fr.onload=function(){hideLoader();fr.onload=null;};fr.src='UGS-Files/'+g.f;}},80);addCoins(1);var recent=JSON.parse(localStorage.getItem('recentGames')||'[]');var today=new Date().toDateString();if(!recent.find(function(r){return r.f===g.f&&r.date===today;})){recent.unshift({f:g.f,name:g.name,date:today});if(recent.length>50)recent.pop();localStorage.setItem('recentGames',JSON.stringify(recent));state.gamesPlayed=(state.gamesPlayed||0)+1;}window._gameStartTime=Date.now();updateQuests();saveState();setTimeout(updateGameQuestWidget,200);}
 var _currentGameIdx=-1;
 function toggleGameFav(){
   if(_currentGameIdx<0)return;
@@ -828,6 +856,40 @@ function toggleGameFav(){
   else{state.favorites.push(_currentGameIdx);if(btn)btn.textContent='★';addCoins(2,'Sparade favorit');updateQuests('fav');}
   saveState();
 }
+function openUpdatesPage(){
+  closeSidebar();
+  showLoader('Update Logs');
+  setTimeout(function(){
+    var pg=document.getElementById('updatesPage');
+    if(!pg)return;
+    pg.classList.add('open');
+    var body=document.getElementById('updatesPageBody');
+    if(body)_renderChangelogHTML(body);
+    hideLoader();
+  },80);
+}
+function closeUpdatesPage(){
+  var pg=document.getElementById('updatesPage');
+  if(pg)pg.classList.remove('open');
+}
+function updateGameQuestWidget(){
+  var w=document.getElementById('gameQuestWidget');
+  if(!w)return;
+  var gameOpen=document.getElementById('gameOverlay')&&document.getElementById('gameOverlay').style.display==='flex';
+  if(!gameOpen||!state.user){w.classList.add('hidden');return;}
+  var g=_currentGameIdx>=0?GAMES[_currentGameIdx]:null;
+  var gName=g?g.name:'';
+  var quests=getQuests();
+  var active=quests.filter(function(q){return !q.claimed&&q.id.indexOf('time')>=0;});
+  if(!active.length){w.classList.add('hidden');return;}
+  var q=active[0];
+  var pct=Math.min(100,Math.round(q.prog/q.goal*100));
+  document.getElementById('gqwName').textContent=q.name;
+  document.getElementById('gqwProg').textContent=q.prog+' / '+q.goal+' min';
+  document.getElementById('gqwFill').style.width=pct+'%';
+  w.classList.remove('hidden');
+}
+
 function closeGame(){var fr=document.getElementById('gameFrame');if(fr)fr.src='about:blank';document.getElementById('gameOverlay').style.display='none';if(window._gameStartTime){var mins=Math.floor((Date.now()-window._gameStartTime)/60000);if(mins>0){var today=new Date().toDateString();var key='playtime_'+state.user+'_'+today;var old=parseInt(localStorage.getItem(key)||'0');localStorage.setItem(key,old+mins);updateQuests();}window._gameStartTime=null;}}
 function goFullscreen(){
   var fr=document.getElementById("gameFrame");
@@ -1031,7 +1093,7 @@ function _renderChangelogHTML(el){
   el.innerHTML=h;
 }
 function renderQuestsPanel(){
-  var el=document.getElementById('questsOverlayBody');
+  var el=document.getElementById('panel_quests')||document.getElementById('questsOverlayBody');
   if(!el)return;
   if(!state.user){el.innerHTML="<p style='color:var(--d);padding:20px;text-align:center'>Logga in för att se quests</p>";return;}
   var quests=getQuests();
@@ -1076,7 +1138,12 @@ function renderQuestsPanel(){
   });
 }
 
-function updateQuests(){if(document.getElementById('questsOverlayBody')&&document.getElementById('questsOverlayBody').innerHTML)renderQuestsPanel();}
+function updateQuests(){
+  var el=document.getElementById('panel_quests');
+  if(el&&el.classList.contains('active'))renderQuestsPanel();
+  else if(document.getElementById('questsOverlayBody')&&document.getElementById('questsOverlayBody').innerHTML)renderQuestsPanel();
+  updateGameQuestWidget();
+}
 function renderShopPanel(){
   var el=document.getElementById("butikOverlayBody");
   if(!state.user){el.innerHTML="<p style='color:var(--d);padding:14px;text-align:center'>Logga in för att använda butiken</p>";return;}
