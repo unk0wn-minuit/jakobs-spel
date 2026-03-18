@@ -436,6 +436,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
   <div class="sideHead"><h3>🎮 Meny</h3><button class="closeBtn" onclick="closeSidebar()">✕</button></div>
   <nav class="sideNavList">
     <button class="sideNavBtn active" data-tab="favoriter" onclick="openPanelOverlay('fav')"><span class="sideNavIcon">⭐</span><span class="sideNavLabel" data-i18n="nav_favs">Favorites</span></button>
+    <button class="sideNavBtn" onclick="closeSidebar();openPanelOverlay('links')"><span class="sideNavIcon">🔗</span><span class="sideNavLabel" data-i18n="nav_links">Jakob's Links</span></button>
     <button class="sideNavBtn" onclick="openProfileWindow()"><span class="sideNavIcon">👤</span><span class="sideNavLabel" data-i18n="nav_profile">Profile</span></button>
     <button class="sideNavBtn" onclick="openThemesWindow()"><span class="sideNavIcon">🎨</span><span class="sideNavLabel" data-i18n="nav_themes">Themes</span></button>
     <button class="sideNavBtn" onclick="closeSidebar();openPanelOverlay('forslag')"><span class="sideNavIcon">💡</span><span class="sideNavLabel" data-i18n="nav_suggest">Suggest</span></button>
@@ -446,7 +447,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
     <button class="sideNavBtn" onclick="closeSidebar();openChat()"><span class="sideNavIcon">💬</span><span class="sideNavLabel" data-i18n="nav_chat">Chat</span></button>
     <button class="sideNavBtn" onclick="closeSidebar();openPanelOverlay('leaderboard')"><span class="sideNavIcon">🏆</span><span class="sideNavLabel">Leaderboard</span></button>
     <button class="sideNavBtn" onclick="closeSidebar();openPanelOverlay('achievements')"><span class="sideNavIcon">🏅</span><span class="sideNavLabel">Achievements</span></button>
-    <button class="sideNavBtn" onclick="closeSidebar();openPanelOverlay('roadmap')"><span class="sideNavIcon">🗺️</span><span class="sideNavLabel">Roadmap</span></button>
+    <button class="sideNavBtn" onclick="openRoadmapPage()"><span class="sideNavIcon">🗺️</span><span class="sideNavLabel">Roadmap</span></button>
     <button class="sideNavBtn" data-tab="discord" onclick="openDiscord()"><span class="sideNavIcon">🟣</span><span class="sideNavLabel">Discord</span></button>
     <button class="sideNavBtn" onclick="openBrowser('browser')"><span class="sideNavIcon">🌐</span><span class="sideNavLabel">Browser</span></button>
     <button class="sideNavBtn" onclick="openBrowser('ai')"><span class="sideNavIcon">🤖</span><span class="sideNavLabel">Jakob AI</span></button>
@@ -480,6 +481,14 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
     <div style="width:100px"></div>
   </div>
   <div class="updatesContent"><div class="updatesInner" id="updatesPageBody"></div></div>
+</div>
+<div class="updatesPage" id="roadmapPage">
+  <div class="updatesBar">
+    <button class="updatesBackBtn" onclick="closeRoadmapPage()">← Tillbaka</button>
+    <div class="updatesBar-title">🗺️ Roadmap</div>
+    <div style="width:100px"></div>
+  </div>
+  <div class="updatesContent"><div class="updatesInner" id="roadmapPageBody"></div></div>
 </div>
 
 <div class="viewProfileOverlay" id="viewProfileOverlay" onclick="if(event.target===this)closeViewProfile()">
@@ -625,8 +634,20 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
 </div>
 <div class="panelOverlay" id="forslagOverlay" onclick="if(event.target===this)closePanelOverlay('forslag')">
   <div class="panelWin" style="max-width:480px">
-    <div class="panelHead"><h3>💡 Föreslå ett spel</h3><button class="closeBtn" onclick="closePanelOverlay('forslag')">✕</button></div>
-    <div class="panelBody" id="forslagOverlayBody"></div>
+    <div class="panelHead"><h3>💡 <span data-i18n="sugTitle">Föreslå ett spel</span></h3><button class="closeBtn" onclick="closePanelOverlay('forslag')">✕</button></div>
+    <div class="panelBody">
+      <div class="sugForm" style="margin-top:4px">
+        <input type="text" id="sugGame" placeholder="Spelnamn..." style="pointer-events:auto;cursor:text">
+        <textarea id="sugText" placeholder="Beskrivning eller länk..." style="pointer-events:auto;cursor:text;min-height:90px"></textarea>
+        <button class="pill primary" onclick="submitSuggestion()" style="justify-content:center;margin-top:4px;width:100%"><span data-i18n="sugBtn">Skicka förslag</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panelOverlay" id="linksOverlay" onclick="if(event.target===this)closePanelOverlay('links')">
+  <div class="panelWin" style="max-width:500px">
+    <div class="panelHead"><h3>🔗 <span data-i18n="nav_links">Jakob's Links</span></h3><button class="closeBtn" onclick="closePanelOverlay('links')">✕</button></div>
+    <div class="panelBody" id="linksOverlayBody"></div>
   </div>
 </div>
 <div class="panelOverlay" id="roadmapOverlay" onclick="if(event.target===this)closePanelOverlay('roadmap')">
@@ -690,7 +711,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var
     </div>
   </section>
   <div id="recommendedWrap" style="margin-bottom:4px">
-<div style="font-size:13px;font-weight:700;color:var(--d);margin:0 0 8px">✨ Rekommenderade spel</div>
+<div style="font-size:13px;font-weight:700;color:var(--d);margin:0 0 8px;text-align:center" data-i18n="recTitle">✨ Rekommenderade spel</div>
 <div id="recommendedSection" style="padding:0 0 4px"></div>
 </div>
 <div class="filterBar">
@@ -858,8 +879,8 @@ function hideLoader(){
 function animatePanel(id){var el=document.getElementById(id);if(el){el.style.animation="none";el.offsetHeight;el.style.animation="panelIn .25s ease";}}
 
 /* ---- PANEL OVERLAY WINDOWS ---- */
-function renderRoadmapPanel(){
-  var el=document.getElementById('roadmapOverlayBody');if(!el)return;
+function renderRoadmapPanel(targetEl){
+  var el=targetEl||document.getElementById('roadmapPageBody');if(!el)return;
   var items=[
     {s:"done",l:"✅ Klar",c:"#3ba55c",t:"Inline Game View",d:"Spel visas direkt på sidan utan overlay"},
     {s:"done",l:"✅ Klar",c:"#3ba55c",t:"Profil & Bio System",d:"Bio, status, banner, showcase, pinnade spel, join date"},
@@ -915,7 +936,7 @@ var _overlayRenders={fav:renderFavsPanel,quests:function(){renderQuestsPanel(doc
 leaderboard:function(){renderLeaderboardPanel(document.getElementById('leaderboardOverlayBody'));},
 settings:function(){renderSettingsPanel(document.getElementById('settingsOverlayBody'));},
 forslag:function(){renderForslagPanel(document.getElementById('forslagOverlayBody'));},
-roadmap:renderRoadmapPanel};
+links:renderLinksPanel};
 function openPanelOverlay(name){
   closeSidebar();
   var ov=document.getElementById(name+"Overlay");
@@ -1251,6 +1272,42 @@ function openUpdatesPage(){
 function closeUpdatesPage(){
   var pg=document.getElementById('updatesPage');
   if(pg)pg.classList.remove('open');
+}
+function openRoadmapPage(){
+  closeSidebar();
+  showLoader('Roadmap');
+  setTimeout(function(){
+    var pg=document.getElementById('roadmapPage');if(!pg)return;
+    pg.classList.add('open');
+    var body=document.getElementById('roadmapPageBody');
+    if(body)renderRoadmapPanel(body);
+    hideLoader();
+  },80);
+}
+function closeRoadmapPage(){
+  var pg=document.getElementById('roadmapPage');
+  if(pg)pg.classList.remove('open');
+}
+function renderLinksPanel(){
+  var el=document.getElementById('linksOverlayBody');if(!el)return;
+  var links=[
+    {url:'https://jakobb.se',icon:'🏠',name:'jakobb.se',desc:'Min personliga hemsida'},
+    {url:'https://fps.jakobb.se',icon:'🎮',name:'fps.jakobb.se',desc:'FPS-spel'},
+    {url:'https://emil.gt.tc',icon:'👤',name:'emil.gt.tc',desc:'Emils hemsida'},
+    {url:'https://gmes.jakobb.se',icon:'🕹️',name:'gmes.jakobb.se',desc:'Spel-sajt'},
+    {url:'https://imagetools.jakobb.se',icon:'🖼️',name:'imagetools.jakobb.se',desc:'Bildverktyg'},
+    {url:'https://tiktok.com/@fliq.vfx',icon:'🎵',name:'fliq.vfx',desc:'TikTok'},
+  ];
+  var h='<div style="display:flex;flex-direction:column;gap:8px;padding:4px 0">';
+  links.forEach(function(l){
+    h+='<a href="'+l.url+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;background:var(--glass);border:1px solid var(--line);text-decoration:none;transition:all .2s" onmouseenter="this.style.borderColor=\'var(--p1)\';this.style.background=\'rgba(123,44,255,.15)\'" onmouseleave="this.style.borderColor=\'var(--line)\';this.style.background=\'var(--glass)\'">';
+    h+='<span style="font-size:28px">'+l.icon+'</span>';
+    h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:var(--w)">'+l.name+'</div><div style="font-size:12px;color:var(--d);margin-top:2px">'+l.desc+'</div></div>';
+    h+='<span style="color:var(--p1);font-size:18px">↗</span>';
+    h+='</a>';
+  });
+  h+='</div>';
+  el.innerHTML=h;
 }
 function updateGameQuestWidget(){
   var w=document.getElementById('gameQuestWidget');
@@ -2698,7 +2755,7 @@ en:{heroTitle:"Jakob's Game Library",pill_games:"🎮 1,946 games",pill_coins:"�
   switchToReg:"No account? Register",switchToLogin:"Have an account? Log in",
   noFavs:"No favorites yet\nClick ☆ on a game",notLoggedFavs:"Log in to see favorites",
   colors_purple:"Purple",colors_neon:"Neon",colors_gold:"Gold",
-  colors_red:"Red",colors_blue:"Blue",colors_pink:"Pink",online:"online now",close:"Close",loading:"Loading...",add_friend:"Add friend",remove_friend:"Remove friend",nav_quests:"Quests",nav_leaderboard:"Leaderboard",nav_achievements:"Achievements",nav_soundboard:"Soundboard",nav_shop:"Shop",nav_inventory:"Inventory",quest_claim:"Claim",quest_claimed:"✅ Claimed",quest_daily:"Daily",quest_social:"Social",quest_milestone:"Milestones",quest_no_login:"Log in to see quests",ach_no_login:"Log in to see achievements",lb_title:"Leaderboard",shop_title:"Shop",inv_title:"Inventory",streak_days:"day streak 🔥",rate_title:"Rate game",profile_edit:"Edit",profile_view:"View profile",profile_joined:"Joined",profile_showcase:"Showcase",profile_pinned:"Pinned games"},
+  colors_red:"Red",colors_blue:"Blue",colors_pink:"Pink",online:"online now",close:"Close",loading:"Loading...",add_friend:"Add friend",remove_friend:"Remove friend",nav_quests:"Quests",nav_leaderboard:"Leaderboard",nav_achievements:"Achievements",nav_soundboard:"Soundboard",nav_shop:"Shop",nav_inventory:"Inventory",quest_claim:"Claim",quest_claimed:"✅ Claimed",quest_daily:"Daily",quest_social:"Social",quest_milestone:"Milestones",quest_no_login:"Log in to see quests",ach_no_login:"Log in to see achievements",lb_title:"Leaderboard",shop_title:"Shop",inv_title:"Inventory",streak_days:"day streak 🔥",rate_title:"Rate game",profile_edit:"Edit",profile_view:"View profile",profile_joined:"Joined",profile_showcase:"Showcase",profile_pinned:"Pinned games",nav_links:"Jakob's Links",recTitle:"✨ Recommended games"},
 
 sv:{heroTitle:"Jakobs Spelbibliotek",pill_games:"🎮 1 946 spel",pill_coins:"🏆 Samla mynt",
   pill_favs:"⭐ Spara favoriter",pill_quests:"📋 Slutför quests",allGames:"Alla spel",
@@ -2718,7 +2775,7 @@ sv:{heroTitle:"Jakobs Spelbibliotek",pill_games:"🎮 1 946 spel",pill_coins:"�
   switchToReg:"Inget konto? Registrera",switchToLogin:"Har konto? Logga in",
   noFavs:"Inga favoriter än\nKlicka ☆ på ett spel",notLoggedFavs:"Logga in för att se favoriter",
   colors_purple:"Lila",colors_neon:"Neon",colors_gold:"Guld",
-  colors_red:"Röd",colors_blue:"Blå",colors_pink:"Rosa",online:"online nu",close:"Stäng",loading:"Laddar...",add_friend:"Lägg till vän",remove_friend:"Ta bort vän",nav_quests:"Quests",nav_leaderboard:"Topplistor",nav_achievements:"Achievements",nav_soundboard:"Soundboard",nav_shop:"Butik",nav_inventory:"Inventory",quest_claim:"Hämta",quest_claimed:"✅ Hämtad",quest_daily:"Dagliga",quest_social:"Social",quest_milestone:"Milstolpar",quest_no_login:"Logga in för att se quests",ach_no_login:"Logga in för att se achievements",lb_title:"Topplistor",shop_title:"Butik",inv_title:"Inventory",streak_days:"dagars streak 🔥",rate_title:"Betygsätt spel",profile_edit:"Redigera",profile_view:"Visa profil",profile_joined:"Gick med",profile_showcase:"Showcase",profile_pinned:"Pinnade spel"},
+  colors_red:"Röd",colors_blue:"Blå",colors_pink:"Rosa",online:"online nu",close:"Stäng",loading:"Laddar...",add_friend:"Lägg till vän",remove_friend:"Ta bort vän",nav_quests:"Quests",nav_leaderboard:"Topplistor",nav_achievements:"Achievements",nav_soundboard:"Soundboard",nav_shop:"Butik",nav_inventory:"Inventory",quest_claim:"Hämta",quest_claimed:"✅ Hämtad",quest_daily:"Dagliga",quest_social:"Social",quest_milestone:"Milstolpar",quest_no_login:"Logga in för att se quests",ach_no_login:"Logga in för att se achievements",lb_title:"Topplistor",shop_title:"Butik",inv_title:"Inventory",streak_days:"dagars streak 🔥",rate_title:"Betygsätt spel",profile_edit:"Redigera",profile_view:"Visa profil",profile_joined:"Gick med",profile_showcase:"Showcase",profile_pinned:"Pinnade spel",nav_links:"Jakobs Länkar",recTitle:"✨ Rekommenderade spel"},
 
 es:{heroTitle:"Biblioteca de Juegos de Jakob",pill_games:"🎮 1.946 juegos",pill_coins:"🏆 Coleccionar monedas",
   pill_favs:"⭐ Guardar favoritos",pill_quests:"📋 Completar misiones",allGames:"Todos los juegos",
@@ -2738,7 +2795,7 @@ es:{heroTitle:"Biblioteca de Juegos de Jakob",pill_games:"🎮 1.946 juegos",pil
   switchToReg:"¿Sin cuenta? Regístrate",switchToLogin:"¿Ya tienes cuenta? Entra",
   noFavs:"Sin favoritos aún\nHaz clic en ☆ de un juego",notLoggedFavs:"Inicia sesión para ver favoritos",
   colors_purple:"Morado",colors_neon:"Neón",colors_gold:"Dorado",
-  colors_red:"Rojo",colors_blue:"Azul",colors_pink:"Rosa",online:"en línea",close:"Cerrar",loading:"Cargando...",add_friend:"Añadir amigo",remove_friend:"Eliminar amigo",nav_quests:"Misiones",nav_leaderboard:"Clasificación",nav_achievements:"Logros",nav_soundboard:"Sonidos",nav_shop:"Tienda",nav_inventory:"Inventario",quest_claim:"Reclamar",quest_claimed:"✅ Reclamado",quest_daily:"Diarias",quest_social:"Social",quest_milestone:"Hitos",quest_no_login:"Inicia sesión para ver misiones",ach_no_login:"Inicia sesión para ver logros",lb_title:"Clasificación",shop_title:"Tienda",inv_title:"Inventario",streak_days:"días de racha 🔥",rate_title:"Valorar juego",profile_edit:"Editar",profile_view:"Ver perfil",profile_joined:"Se unió",profile_showcase:"Showcase",profile_pinned:"Juegos fijados"},
+  colors_red:"Rojo",colors_blue:"Azul",colors_pink:"Rosa",online:"en línea",close:"Cerrar",loading:"Cargando...",add_friend:"Añadir amigo",remove_friend:"Eliminar amigo",nav_quests:"Misiones",nav_leaderboard:"Clasificación",nav_achievements:"Logros",nav_soundboard:"Sonidos",nav_shop:"Tienda",nav_inventory:"Inventario",quest_claim:"Reclamar",quest_claimed:"✅ Reclamado",quest_daily:"Diarias",quest_social:"Social",quest_milestone:"Hitos",quest_no_login:"Inicia sesión para ver misiones",ach_no_login:"Inicia sesión para ver logros",lb_title:"Clasificación",shop_title:"Tienda",inv_title:"Inventario",streak_days:"días de racha 🔥",rate_title:"Valorar juego",profile_edit:"Editar",profile_view:"Ver perfil",profile_joined:"Se unió",profile_showcase:"Showcase",profile_pinned:"Juegos fijados",nav_links:"Links de Jakob",recTitle:"✨ Juegos recomendados"},
 
 fr:{heroTitle:"Bibliothèque de Jeux de Jakob",pill_games:"🎮 1 946 jeux",pill_coins:"🏆 Collecter des pièces",
   pill_favs:"⭐ Sauvegarder les favoris",pill_quests:"📋 Compléter des quêtes",allGames:"Tous les jeux",
@@ -2758,7 +2815,7 @@ fr:{heroTitle:"Bibliothèque de Jeux de Jakob",pill_games:"🎮 1 946 jeux",pill
   switchToReg:"Pas de compte ? S'inscrire",switchToLogin:"Déjà un compte ? Se connecter",
   noFavs:"Pas encore de favoris\nCliquez ☆ sur un jeu",notLoggedFavs:"Connectez-vous pour voir les favoris",
   colors_purple:"Violet",colors_neon:"Néon",colors_gold:"Or",
-  colors_red:"Rouge",colors_blue:"Bleu",colors_pink:"Rose",online:"en ligne",close:"Fermer",loading:"Chargement...",add_friend:"Ajouter ami",remove_friend:"Retirer ami",nav_quests:"Quêtes",nav_leaderboard:"Classement",nav_achievements:"Succès",nav_soundboard:"Sonorisation",nav_shop:"Boutique",nav_inventory:"Inventaire",quest_claim:"Réclamer",quest_claimed:"✅ Réclamé",quest_daily:"Quotidiennes",quest_social:"Social",quest_milestone:"Jalons",quest_no_login:"Connectez-vous pour voir les quêtes",ach_no_login:"Connectez-vous pour voir les succès",lb_title:"Classement",shop_title:"Boutique",inv_title:"Inventaire",streak_days:"jours de série 🔥",rate_title:"Évaluer le jeu",profile_edit:"Modifier",profile_view:"Voir profil",profile_joined:"Inscrit",profile_showcase:"Showcase",profile_pinned:"Jeux épinglés"},
+  colors_red:"Rouge",colors_blue:"Bleu",colors_pink:"Rose",online:"en ligne",close:"Fermer",loading:"Chargement...",add_friend:"Ajouter ami",remove_friend:"Retirer ami",nav_quests:"Quêtes",nav_leaderboard:"Classement",nav_achievements:"Succès",nav_soundboard:"Sonorisation",nav_shop:"Boutique",nav_inventory:"Inventaire",quest_claim:"Réclamer",quest_claimed:"✅ Réclamé",quest_daily:"Quotidiennes",quest_social:"Social",quest_milestone:"Jalons",quest_no_login:"Connectez-vous pour voir les quêtes",ach_no_login:"Connectez-vous pour voir les succès",lb_title:"Classement",shop_title:"Boutique",inv_title:"Inventaire",streak_days:"jours de série 🔥",rate_title:"Évaluer le jeu",profile_edit:"Modifier",profile_view:"Voir profil",profile_joined:"Inscrit",profile_showcase:"Showcase",profile_pinned:"Jeux épinglés",nav_links:"Liens de Jakob",recTitle:"✨ Jeux recommandés"},
 
 de:{heroTitle:"Jakobs Spielbibliothek",pill_games:"🎮 1 946 Spiele",pill_coins:"🏆 Münzen sammeln",
   pill_favs:"⭐ Favoriten speichern",pill_quests:"📋 Quests abschließen",allGames:"Alle Spiele",
@@ -2778,7 +2835,7 @@ de:{heroTitle:"Jakobs Spielbibliothek",pill_games:"🎮 1 946 Spiele",pill_coins
   switchToReg:"Kein Konto? Registrieren",switchToLogin:"Konto vorhanden? Anmelden",
   noFavs:"Noch keine Favoriten\nKlicken Sie ☆ bei einem Spiel",notLoggedFavs:"Anmelden um Favoriten zu sehen",
   colors_purple:"Lila",colors_neon:"Neon",colors_gold:"Gold",
-  colors_red:"Rot",colors_blue:"Blau",colors_pink:"Pink",online:"online",close:"Schließen",loading:"Laden...",add_friend:"Freund hinzufügen",remove_friend:"Freund entfernen",nav_quests:"Quests",nav_leaderboard:"Bestenliste",nav_achievements:"Erfolge",nav_soundboard:"Soundboard",nav_shop:"Shop",nav_inventory:"Inventar",quest_claim:"Einlösen",quest_claimed:"✅ Eingelöst",quest_daily:"Tägliche",quest_social:"Sozial",quest_milestone:"Meilensteine",quest_no_login:"Anmelden um Quests zu sehen",ach_no_login:"Anmelden um Erfolge zu sehen",lb_title:"Bestenliste",shop_title:"Shop",inv_title:"Inventar",streak_days:"Tage Streak 🔥",rate_title:"Spiel bewerten",profile_edit:"Bearbeiten",profile_view:"Profil ansehen",profile_joined:"Beigetreten",profile_showcase:"Showcase",profile_pinned:"Angepinnte Spiele"},
+  colors_red:"Rot",colors_blue:"Blau",colors_pink:"Pink",online:"online",close:"Schließen",loading:"Laden...",add_friend:"Freund hinzufügen",remove_friend:"Freund entfernen",nav_quests:"Quests",nav_leaderboard:"Bestenliste",nav_achievements:"Erfolge",nav_soundboard:"Soundboard",nav_shop:"Shop",nav_inventory:"Inventar",quest_claim:"Einlösen",quest_claimed:"✅ Eingelöst",quest_daily:"Tägliche",quest_social:"Sozial",quest_milestone:"Meilensteine",quest_no_login:"Anmelden um Quests zu sehen",ach_no_login:"Anmelden um Erfolge zu sehen",lb_title:"Bestenliste",shop_title:"Shop",inv_title:"Inventar",streak_days:"Tage Streak 🔥",rate_title:"Spiel bewerten",profile_edit:"Bearbeiten",profile_view:"Profil ansehen",profile_joined:"Beigetreten",profile_showcase:"Showcase",profile_pinned:"Angepinnte Spiele",nav_links:"Jakobs Links",recTitle:"✨ Empfohlene Spiele"},
 
 ru:{heroTitle:"Игровая Библиотека Якоба",pill_games:"🎮 1 946 игр",pill_coins:"🏆 Собирать монеты",
   pill_favs:"⭐ Сохранять избранное",pill_quests:"📋 Выполнять задания",allGames:"Все игры",
@@ -2798,7 +2855,7 @@ ru:{heroTitle:"Игровая Библиотека Якоба",pill_games:"🎮 
   switchToReg:"Нет аккаунта? Зарегистрироваться",switchToLogin:"Есть аккаунт? Войти",
   noFavs:"Избранных нет\nНажмите ☆ на игру",notLoggedFavs:"Войдите чтобы увидеть избранное",
   colors_purple:"Фиолетовый",colors_neon:"Неон",colors_gold:"Золотой",
-  colors_red:"Красный",colors_blue:"Синий",colors_pink:"Розовый",online:"онлайн",close:"Закрыть",loading:"Загрузка...",add_friend:"Добавить друга",remove_friend:"Удалить друга",nav_quests:"Задания",nav_leaderboard:"Рейтинг",nav_achievements:"Достижения",nav_soundboard:"Звуки",nav_shop:"Магазин",nav_inventory:"Инвентарь",quest_claim:"Получить",quest_claimed:"✅ Получено",quest_daily:"Ежедневные",quest_social:"Социальные",quest_milestone:"Достижения",quest_no_login:"Войдите чтобы видеть задания",ach_no_login:"Войдите чтобы видеть достижения",lb_title:"Рейтинг",shop_title:"Магазин",inv_title:"Инвентарь",streak_days:"дней серия 🔥",rate_title:"Оценить игру",profile_edit:"Редактировать",profile_view:"Просмотр профиля",profile_joined:"С нами с",profile_showcase:"Showcase",profile_pinned:"Закреплённые игры"},
+  colors_red:"Красный",colors_blue:"Синий",colors_pink:"Розовый",online:"онлайн",close:"Закрыть",loading:"Загрузка...",add_friend:"Добавить друга",remove_friend:"Удалить друга",nav_quests:"Задания",nav_leaderboard:"Рейтинг",nav_achievements:"Достижения",nav_soundboard:"Звуки",nav_shop:"Магазин",nav_inventory:"Инвентарь",quest_claim:"Получить",quest_claimed:"✅ Получено",quest_daily:"Ежедневные",quest_social:"Социальные",quest_milestone:"Достижения",quest_no_login:"Войдите чтобы видеть задания",ach_no_login:"Войдите чтобы видеть достижения",lb_title:"Рейтинг",shop_title:"Магазин",inv_title:"Инвентарь",streak_days:"дней серия 🔥",rate_title:"Оценить игру",profile_edit:"Редактировать",profile_view:"Просмотр профиля",profile_joined:"С нами с",profile_showcase:"Showcase",profile_pinned:"Закреплённые игры",nav_links:"Ссылки Якоба",recTitle:"✨ Рекомендуемые игры"},
 
 zh:{heroTitle:"雅各布的游戏库",pill_games:"🎮 1,946个游戏",pill_coins:"🏆 收集金币",
   pill_favs:"⭐ 保存收藏",pill_quests:"📋 完成任务",allGames:"所有游戏",
@@ -2818,7 +2875,7 @@ zh:{heroTitle:"雅各布的游戏库",pill_games:"🎮 1,946个游戏",pill_coin
   switchToReg:"没有账户？注册",switchToLogin:"已有账户？登录",
   noFavs:"暂无收藏\n点击游戏上的☆",notLoggedFavs:"登录以查看收藏",
   colors_purple:"紫色",colors_neon:"霓虹",colors_gold:"金色",
-  colors_red:"红色",colors_blue:"蓝色",colors_pink:"粉色",online:"在线",close:"关闭",loading:"加载中...",add_friend:"添加好友",remove_friend:"删除好友",nav_quests:"任务",nav_leaderboard:"排行榜",nav_achievements:"成就",nav_soundboard:"音效板",nav_shop:"商店",nav_inventory:"背包",quest_claim:"领取",quest_claimed:"✅ 已领取",quest_daily:"每日",quest_social:"社交",quest_milestone:"里程碑",quest_no_login:"登录查看任务",ach_no_login:"登录查看成就",lb_title:"排行榜",shop_title:"商店",inv_title:"背包",streak_days:"天连续 🔥",rate_title:"评分游戏",profile_edit:"编辑",profile_view:"查看资料",profile_joined:"加入时间",profile_showcase:"Showcase",profile_pinned:"置顶游戏"}
+  colors_red:"红色",colors_blue:"蓝色",colors_pink:"粉色",online:"在线",close:"关闭",loading:"加载中...",add_friend:"添加好友",remove_friend:"删除好友",nav_quests:"任务",nav_leaderboard:"排行榜",nav_achievements:"成就",nav_soundboard:"音效板",nav_shop:"商店",nav_inventory:"背包",quest_claim:"领取",quest_claimed:"✅ 已领取",quest_daily:"每日",quest_social:"社交",quest_milestone:"里程碑",quest_no_login:"登录查看任务",ach_no_login:"登录查看成就",lb_title:"排行榜",shop_title:"商店",inv_title:"背包",streak_days:"天连续 🔥",rate_title:"评分游戏",profile_edit:"编辑",profile_view:"查看资料",profile_joined:"加入时间",profile_showcase:"Showcase",profile_pinned:"置顶游戏",nav_links:"雅各布的链接",recTitle:"✨ 推荐游戏"}
 };
 
 function T(key){
