@@ -879,15 +879,17 @@ function renderRoadmapPanel(){
     {s:"planned",l:"💡 Planerad",c:"#5865f2",t:"Profil-musik",d:"Välj bakgrundsmusik som spelas när folk besöker din profil"},
     {s:"planned",l:"💡 Planerad",c:"#5865f2",t:"Mobilapp",d:"Dedikerad app för iOS och Android"},
   ];
-  var h='<div style="padding:4px 0">';
+  var h='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 0">';
   items.forEach(function(item){
-    h+='<div style="display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border-radius:12px;background:var(--glass);border:1px solid var(--line);margin-bottom:7px">';
-    h+='<span style="background:'+item.c+'22;color:'+item.c+';border:1px solid '+item.c+'55;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0">'+item.l+'</span>';
-    h+='<div><div style="font-weight:700;font-size:14px;color:var(--w);margin-bottom:2px">'+item.t+'</div><div style="font-size:12px;color:var(--d)">'+item.d+'</div></div>';
+    h+='<div style="display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:14px;background:var(--glass);border:1px solid '+item.c+'33;position:relative;overflow:hidden">';
+    h+='<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,'+item.c+','+item.c+'44)"></div>';
+    h+='<span style="background:'+item.c+'22;color:'+item.c+';border:1px solid '+item.c+'55;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;align-self:flex-start">'+item.l+'</span>';
+    h+='<div style="font-weight:800;font-size:13px;color:var(--w);line-height:1.3">'+item.t+'</div>';
+    h+='<div style="font-size:11px;color:var(--d);line-height:1.4">'+item.d+'</div>';
     h+='</div>';
   });
-  h+='<div style="text-align:center;font-size:11px;color:var(--d);margin-top:12px;padding:8px">💬 Har du idéer? Använd Förslag i menyn!</div>';
   h+='</div>';
+  h+='<div style="text-align:center;font-size:11px;color:var(--d);margin-top:12px;padding:8px">💬 Har du idéer? Använd Förslag i menyn!</div>';
   el.innerHTML=h;
 }
 function renderRecommendedSection(){
@@ -911,7 +913,7 @@ function renderRecommendedSection(){
   h+='</div>';
   el.innerHTML=h;
 }
-var _overlayRenders={fav:renderFavsPanel,quests:renderQuestsPanel,butik:renderShopPanel,admin:renderAdminPanel,changelog:renderChangelogPanel,achievements:function(){renderAchievementsPanel(document.getElementById('achievementsOverlayBody'));},
+var _overlayRenders={fav:renderFavsPanel,quests:function(){renderQuestsPanel(document.getElementById('questsOverlayBody'));},butik:renderShopPanel,admin:renderAdminPanel,changelog:renderChangelogPanel,achievements:function(){renderAchievementsPanel(document.getElementById('achievementsOverlayBody'));},
 leaderboard:function(){renderLeaderboardPanel(document.getElementById('leaderboardOverlayBody'));},
 settings:function(){renderSettingsPanel(document.getElementById('settingsOverlayBody'));},
 forslag:function(){renderForslagPanel(document.getElementById('forslagOverlayBody'));},
@@ -1167,13 +1169,15 @@ function checkAchievements(){
 function renderAchievementsPanel(el){
   if(!el)return;
   if(!state.user){el.innerHTML="<p style='color:var(--d);padding:20px;text-align:center'>Logga in för att se achievements</p>";return;}var earned=JSON.parse(localStorage.getItem('achievements_'+state.user)||'[]');
-  var html='<div class="sideSection"><h4>🏅 Achievements ('+earned.length+'/'+ACHIEVEMENTS.length+')</h4>';
+  var html='<div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--d)">🏅 Achievements</span><span style="font-size:12px;color:var(--p1);font-weight:700">'+earned.length+' / '+ACHIEVEMENTS.length+'</span></div>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
   ACHIEVEMENTS.forEach(function(a){
     var done=earned.indexOf(a.id)>=0;
-    html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--line);margin-bottom:5px;opacity:'+(done?'1':'.45')+'">';
-    html+='<span style="font-size:22px">'+a.icon+'</span>';
-    html+='<div><div style="font-size:13px;font-weight:700;color:var(--w)">'+a.name+'</div><div style="font-size:11px;color:var(--d)">'+a.desc+'</div></div>';
-    if(done)html+='<span style="margin-left:auto;color:#3ba55c;font-size:16px">✓</span>';
+    html+='<div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:12px;border-radius:14px;background:'+(done?'rgba(59,165,92,.12)':'rgba(255,255,255,.03)')+';border:1px solid '+(done?'#3ba55c44':'var(--line)')+';opacity:'+(done?'1':'.5')+';position:relative">';
+    if(done)html+='<span style="position:absolute;top:8px;right:8px;color:#3ba55c;font-size:14px;font-weight:900">✓</span>';
+    html+='<span style="font-size:26px">'+a.icon+'</span>';
+    html+='<div style="font-size:12px;font-weight:800;color:var(--w);line-height:1.2">'+a.name+'</div>';
+    html+='<div style="font-size:10px;color:var(--d);line-height:1.3">'+a.desc+'</div>';
     html+='</div>';
   });
   html+='</div>';
@@ -1295,7 +1299,7 @@ function renderGames(){
   var grid=document.getElementById("gamesGrid");
   var filtered=getFiltered();
   /* A–Z: sort alphabetically when no search/filter active */
-  var _showLetters=!state.search&&(!state.filterCat||state.filterCat==='all');
+  var _showLetters=!state.search&&(!state.filterCat||state.filterCat==='all'||state.filterCat==='alla');
   if(_showLetters){
     filtered=filtered.slice().sort(function(a,b){
       var na=(a.name||'').replace(/^cl/i,'').trim().toUpperCase();
@@ -1565,8 +1569,8 @@ function getQuests(){
   });
   return quests;
 }
-function renderQuestsPanel(){
-  var el=document.getElementById('panel_quests')||document.getElementById('questsOverlayBody');
+function renderQuestsPanel(targetEl){
+  var el=targetEl||document.getElementById('questsOverlayBody')||document.getElementById('panel_quests');
   if(!el)return;
   if(!state.user){el.innerHTML="<p style='color:var(--d);padding:20px;text-align:center'>Logga in för att se quests</p>";return;}
   var quests=getQuests();
