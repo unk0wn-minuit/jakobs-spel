@@ -914,8 +914,9 @@ function renderRoadmapPanel(targetEl){
 function renderRecommendedSection(){
   var el=document.getElementById('recommendedSection');if(!el)return;
   var featured=[
-    {f:"clworldguessr.html",name:"WorldGuessr",emoji:"🌍",desc:"Gissa länder på Google Street View",color:"#0ea5e9"},
-    {f:"clsummerRider3D.html",name:"Summer Rider 3D",emoji:"🏄",desc:"Surfa vågorna i sommarsolsken",color:"#00b4d8"},
+    {f:"clworldguessr.html",name:"WorldGuessr",emoji:"🌍",desc:T('rec_worldguessr')||"Gissa länder på Google Street View",color:"#0ea5e9"},
+    {f:"EaglercraftZ_1.11.2.html",name:"Eaglercraft 1.11.2",emoji:"⛰️",desc:T('rec_eaglercraft')||"Minecraft i webbläsaren",color:"#3ba55c"},
+    {f:"clsummerRider3D.html",name:"Summer Rider 3D",emoji:"🏄",desc:T('rec_summerrider')||"Surfa vågorna i sommarsolsken",color:"#00b4d8"},
   ];
   var h='<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;padding:4px 0 8px">';
   featured.forEach(function(g){
